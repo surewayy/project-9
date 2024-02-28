@@ -1,0 +1,1267 @@
+ScreenManager:
+    FirstScreen:
+    SecondScreen:
+    QuizScreen:
+    ResultScreen:
+    CorrectionScreen1:
+    QuizScreen2:
+    ResultScreen2:
+    CorrectionScreen2:
+    EnterCode:
+    SchoolExam:
+    QuizScreenN:
+    ResultScreenN:
+    CorrectionN:
+    QuizScreenE:
+    ResultScreenE:
+    CorrectionE:
+    QuizScreenV:
+    ResultScreenV:
+    CorrectionV:
+    QuizScreenQ:
+    ResultScreenQ:
+    CorrectionQ:
+    QuizScreenG0:
+    ResultScreenG0:
+    CorrectionG0:
+    QuizScreenG1:
+    ResultScreenG1:
+    CorrectionG1:
+    QuizScreenG2:
+    ResultScreenG2:
+    CorrectionG2
+    QuizScreenG3:
+    ResultScreenG3:
+    CorrectionG3
+<FirstScreen>:
+    name: 'first'
+
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            source: '50.png'
+            pos_hint: {'center_x': .5, 'center_y': .75}
+        MDLabel:
+            text: 'Common Entrance Quiz'
+            pos_hint: {'center_x': .5, 'center_y': .45}
+            font_size: '25sp'
+            halign: 'center'
+            text_color: 60/255, 43/255, 117/255, 1
+        MDLabel:
+            text: 'Powered by Sure Way Edutech.'
+            pos_hint: {'center_x': .5, 'center_y': .05}
+            font_size: '12sp'
+            halign: 'center'
+            text_color: 60/255, 43/255, 117/255, 1
+        MDFloatLayout:
+            size_hint: .85, .08
+            pos_hint: {'center_x': .5, 'center_y': .37}
+            canvas:
+                Color:
+                    rgb: (238/255, 235/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [25]
+            TextInput:
+                id: name_input
+                hint_text: 'Please Enter Your Name.'
+                size_hint: 1, None
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 96/255, 74/255, 215/255, 1
+                cursor_width: '2sp'
+                foreground_color: 96/255, 74/255, 215/255, 1
+                background_color: 0, 0, 0, 0
+                padding: 15
+                font_size: '18sp'
+        MDFillRoundFlatButton:
+            text: "Enter"
+            text_color: "white"
+            font_size: '20sp'
+            size_hint: .5, .08
+            pos_hint: {'center_x': .5, 'center_y': .25}
+            on_press: root.enter_button_pressed() if name_input.text else None
+
+<SecondScreen>:
+    name: 'second'
+
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        MDLabel:
+            id: welcome_label
+            text: ''
+            pos_hint: {'center_x': .5, 'center_y': .83}
+            font_size: '18sp'
+            halign: 'center'
+            text_color: 60/255, 43/255, 117/255, 1
+
+        MDFloatLayout:
+            id: logos_container
+    MDRaisedButton:
+        text: "English Language"
+        md_bg_color: "blue"
+        pos_hint: {'center_x': .3, 'center_y': .66}
+        on_release: root.start_quiz()
+
+    MDRaisedButton:
+        text: "Mathematics"
+        md_bg_color: "blue"
+        pos_hint: {'center_x': .75, 'center_y': .66}
+        on_release: root.start_quiz2()
+
+    MDRaisedButton:
+        text: "Assess All Quiz"
+        md_bg_color: "blue"
+        pos_hint: {'center_x': .5, 'center_y': .1}
+        on_release: root.assess_all_quiz()
+
+<QuizScreen>:
+    name: 'quiz'
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+
+        Label:
+            id: question_label
+            font_size: '15sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(10)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: None
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+<ResultScreen>:
+    name: 'result_screen'
+    MDLabel:
+        id: result_label
+        font_size: "30sp"
+        halign: "center"
+        pos_hint: {"center_y": 0.7}
+    MDRaisedButton:
+        text: "Try Again"
+        pos_hint: {"center_x": 0.5, "center_y": 0.2}
+        on_release:
+            root.manager.transition.direction = 'right'
+            root.manager.current = "second"
+    MDRaisedButton:
+        text: "Correction"
+        pos_hint: {"center_x": 0.5, "center_y": 0.1}
+        on_release:
+            root.manager.transition.direction = 'up'
+            root.manager.current = "correction_screen1"
+<CorrectionScreen1>:
+    name: 'correction_screen1'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "second"
+
+<QuizScreen2>:
+    name: 'quiz2'
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+
+        Label:
+            id: question_label
+            font_size: '15sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(10)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: None
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+
+<ResultScreen2>:
+    name: 'result_screen2'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDLabel:
+            id: result_label
+            font_size: "30sp"
+            halign: "center"
+    FloatLayout:
+        MDRaisedButton:
+            text: "Try Again"
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "second"
+        MDRaisedButton:
+            text: "Correction"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "correction_screen2"
+
+<CorrectionScreen2>:
+    name: 'correction_screen2'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "second"
+
+<EnterCode>:
+    name: 'enter_code'
+
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            source: 'real.png'
+            pos_hint: {'y': 0.25}
+        MDLabel:
+            text: 'Gain access to complete quiz with N2000.'
+            pos_hint: {'center_x': .5, 'center_y': .1}
+            font_size: '15sp'
+            halign: 'center'
+            text_color: 60/255, 43/255, 117/255, 1
+        MDFloatLayout:
+            size_hint: .85, .08
+            pos_hint: {'center_x': .5, 'center_y': .49}
+            canvas:
+                Color:
+                    rgb: (238/255, 235/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [25]
+            TextInput:
+                id: name_input
+                hint_text: 'Enter Your Code.'
+                size_hint: 1, None
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                height: self.minimum_height
+                multiline: False
+                cursor_color: 96/255, 74/255, 215/255, 1
+                cursor_width: '2sp'
+                foreground_color: 96/255, 74/255, 215/255, 1
+                background_color: 0, 0, 0, 0
+                padding: 15
+                font_size: '18sp'
+                password: True
+            MDIconButton:
+                icon: "eye-off"
+                pos_hint: {"center_y": 0.5, "right": 0.95}  # Adjust position as needed
+                on_release: name_input.password = not name_input.password  # Toggle password visibility
+        MDFillRoundFlatButton:
+            text: "Enter"
+            text_color: "white"
+            font_size: '20sp'
+            size_hint: .5, .08
+            pos_hint: {'center_x': .5, 'center_y': .39}
+            on_press: root.enter_button_pressed()
+        MDFillRoundFlatButton:
+            text: "Get Code Now!"
+            text_color: "white"
+            font_size: '18sp'
+            size_hint: .5, .08
+            pos_hint: {'center_x': .5, 'center_y': .27}
+            on_press: root.show_get_code_popup()  # Add this line to trigger the popup
+        MDFillRoundFlatButton:
+            text: "Logout"
+            text_color: "white"
+            font_size: '18sp'
+            size_hint: .5, .08
+            pos_hint: {'center_x': .5, 'center_y': .18}
+            on_press: root.manager.current = 'first'
+<QuizScreenN>:
+    name: 'quiz_screen_n'
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        BoxLayout:
+            size_hint_y: None
+            height: dp(70)  # Add a spacer above the GridLayout
+
+        Label:
+            id: question_label
+            font_size: '15sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(10)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: None
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+
+<ResultScreenN>:
+    name: 'result_screen_n'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDLabel:
+            id: result_label
+            font_size: "30sp"
+            halign: "center"
+    FloatLayout:
+        MDRaisedButton:
+            text: "Try Again"
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+        MDRaisedButton:
+            text: "Correction"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.manager.transition.direction = 'down'
+                root.manager.current = "correction_n"
+<CorrectionN>:
+    name: 'correction_n'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+<QuizScreenE>:
+    name: 'quiz_screen_e'
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        BoxLayout:
+            size_hint_y: None
+            height: dp(10)  # Add a spacer above the GridLayout
+
+        Label:
+            id: question_label
+            font_size: '12sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(30)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: None
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+<ResultScreenE>:
+    name: 'result_screen_e'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDLabel:
+            id: result_label
+            font_size: "25sp"
+            halign: "center"
+    FloatLayout:
+        MDRaisedButton:
+            text: "Try Again"
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+        MDRaisedButton:
+            text: "Correction"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "correction_e"
+<CorrectionE>:
+    name: 'correction_e'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+<QuizScreenV>:
+    name: 'quiz_screen_v'
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        BoxLayout:
+            size_hint_y: None
+            height: dp(5)  # Add a spacer above the GridLayout
+
+        Label:
+            id: question_label
+            font_size: '11sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(15)
+
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: None
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+<ResultScreenV>:
+    name: 'result_screen_v'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDLabel:
+            id: result_label
+            font_size: "30sp"
+            halign: "center"
+    FloatLayout:
+        MDRaisedButton:
+            text: "Try Again"
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+        MDRaisedButton:
+            text: "Correction"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "correction_v"
+<CorrectionV>:
+    name: 'correction_v'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+<QuizScreenQ>:
+    name: 'quiz_screen_q'
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+
+        Label:
+            id: question_label
+            font_size: '13sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(10)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: None
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+<ResultScreenQ>:
+    name: 'result_screen_q'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDLabel:
+            id: result_label
+            font_size: "30sp"
+            halign: "center"
+    FloatLayout:
+        MDRaisedButton:
+            text: "Try Again"
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+        MDRaisedButton:
+            text: "Correction"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "correction_q"
+<CorrectionQ>:
+    name: 'correction_q'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+<QuizScreenG0>:
+    name: 'quiz_screen_g0'
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+
+        Label:
+            id: question_label
+            font_size: '15sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(10)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: None
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+<ResultScreenG0>:
+    name: 'result_screen_g0'
+    MDLabel:
+        id: result_label
+        font_size: "30sp"
+        halign: "center"
+        pos_hint: {"center_y": 0.7}
+    MDRaisedButton:
+        text: "Try Again"
+        pos_hint: {"center_x": 0.5, "center_y": 0.2}
+        on_release:
+            root.manager.transition.direction = 'right'
+            root.manager.current = "second"
+    MDRaisedButton:
+        text: "Correction"
+        pos_hint: {"center_x": 0.5, "center_y": 0.1}
+        on_release:
+            root.manager.transition.direction = 'up'
+            root.manager.current = "correction_g0"
+<CorrectionG0>:
+    name: 'correction_g0'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "second"
+<QuizScreenG1>:
+    name: 'quiz_screen_g1'
+
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+
+        Label:
+            id: question_label
+            font_size: '15sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(10)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: 0.1
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+<ResultScreenG1>:
+    name: 'result_screen_g1'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDLabel:
+            id: result_label
+            font_size: "30sp"
+            halign: "center"
+    FloatLayout:
+        MDRaisedButton:
+            text: "Try Again"
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+        FloatLayout:
+        MDRaisedButton:
+            text: "Correction"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "correction_g1"
+<CorrectionG1>:
+    name: 'correction_g1'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+<QuizScreenG2>:
+    name: 'quiz_screen_g2'
+
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+
+        Label:
+            id: question_label
+            font_size: '15sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(10)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: 0.1
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+<ResultScreenG2>:
+    name: 'result_screen_g2'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDLabel:
+            id: result_label
+            font_size: "30sp"
+            halign: "center"
+    FloatLayout:
+        MDRaisedButton:
+            text: "Try Again"
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+        MDRaisedButton:
+            text: "Correction"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "correction_g2"
+<CorrectionG2>:
+    name: 'correction_g2'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+
+<QuizScreenG3>:
+    name: 'quiz_screen_g3'
+
+    canvas.before:
+        Color:
+            rgba: (132/225, 183/225, 238/225, 1)  # Set the background color to white (1, 1, 1 represents white)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+
+        Label:
+            id: question_label
+            font_size: '15sp'
+            halign: 'center'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 1
+            spacing: dp(10)
+            padding: dp(10)
+
+            Button:
+                id: option_1
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_2
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_3
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+            Button:
+                id: option_4
+                text: ''
+                background_color: 1, 1, 1, 1  # Default color (white)
+                on_press: root.check_answer(self)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            BoxLayout:
+                size_hint_y: 0.1
+                height: dp(48)
+
+                Widget:  # Spacer
+                    size_hint_x: None
+                    width: dp(10)
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_press: root.next_question()
+<ResultScreenG3>:
+    name: 'result_screen_g3'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDLabel:
+            id: result_label
+            font_size: "30sp"
+            halign: "center"
+    FloatLayout:
+        MDRaisedButton:
+            text: "Try Again"
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+        MDRaisedButton:
+            text: "Correction"
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "correction_g3"
+<CorrectionG3>:
+    name: 'correction_g3'
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: correction_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(10)
+                padding: dp(10)
+        MDRaisedButton:
+            text: "Return to Quiz Page"
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "school_name"
+
+<SchoolExam>:
+    name: 'school_name'
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        MDLabel:
+            text: "PAPER 1"
+            pos_hint: {'center_x': .5, 'center_y': .9}  # Adjusted position
+            font_size: '20sp'
+            theme_text_color: "Primary"
+        MDLabel:
+            text: "PAPER 2"
+            pos_hint: {'center_x': .5, 'center_y': .6}  # Adjusted position
+            font_size: '20sp'
+            theme_text_color: "Primary"
+        MDRaisedButton:
+            text: "QUIZ 1"
+            text_color: "white"
+            font_size: '15sp'
+            size_hint: .4, .07
+            pos_hint: {'center_x': .28, 'center_y': .8}
+            on_press: root.manager.current = 'quiz_screen_n'
+        MDRaisedButton:
+            text: "QUIZ 2"
+            text_color: "white"
+            font_size: '15sp'
+            size_hint: .4, .07
+            pos_hint: {'center_x': .75, 'center_y': .8}
+            on_press: root.manager.current = 'quiz_screen_e'
+        MDRaisedButton:
+            text: "QUIZ 3"
+            text_color: "white"
+            font_size: '15sp'
+            size_hint: .4, .07
+            pos_hint: {'center_x': .29, 'center_y': .7}
+            on_press: root.manager.current = 'quiz_screen_v'
+        MDRaisedButton:
+            text: "QUIZ 4"
+            text_color: "white"
+            font_size: '15sp'
+            size_hint: .4, .07
+            pos_hint: {'center_x': .78, 'center_y': .7}
+            on_press: root.manager.current = 'quiz_screen_q'
+
+        MDRaisedButton:
+            text: "QUIZ 1"
+            text_color: "white"
+            font_size: '15sp'
+            size_hint: .4, .07
+            pos_hint: {'center_x': .28, 'center_y': .5}
+            on_press: root.manager.current = 'quiz_screen_g0'
+
+        MDRaisedButton:
+            text: "QUIZ 2"
+            text_color: "white"
+            font_size: '15sp'
+            size_hint: .4, .07
+            pos_hint: {'center_x': .75, 'center_y': .5}
+            on_press: root.manager.current = 'quiz_screen_g1'
+
+        MDRaisedButton:
+            text: "QUIZ 3"
+            text_color: "white"
+            font_size: '15sp'
+            size_hint: .4, .07
+            pos_hint: {'center_x': .29, 'center_y': .4}
+            on_press: root.manager.current = 'quiz_screen_g2'
+
+        MDRaisedButton:
+            text: "QUIZ 4"
+            text_color: "white"
+            font_size: '15sp'
+            size_hint: .4, .07
+            pos_hint: {'center_x': .78, 'center_y': .4}
+            on_press: root.manager.current = 'quiz_screen_g3'
+
+        MDFillRoundFlatButton:
+            text: 'Logout'
+            icon: 'logout'
+            text_color: 'white'
+            size_hint:
+            font_size: '15sp'
+            pos_hint: {'center_x': .5, 'center_y': .12}
+            on_press: root.manager.current = 'first'
